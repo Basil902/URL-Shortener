@@ -1,0 +1,9 @@
+# Umgebungsvariablen
+.env
+
+# Python-spezifisch
+__pycache__/
+venv/
+
+# Datenbanken
+*.db
