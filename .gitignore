@@ -4,6 +4,7 @@
 # Python-spezifisch
 __pycache__/
 venv/
+*venv/
 
 # Datenbanken
 *.db
