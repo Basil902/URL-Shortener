@@ -1,0 +1,1 @@
+from . import shorten_api_blueprint
