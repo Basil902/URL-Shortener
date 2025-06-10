@@ -1,14 +1,14 @@
 from flask import jsonify, request
 from . import shorten_api_blueprint
 from .. import db
-from models import ShortURL
-from utils import generate_link
+from ..models import ShortURL
+from ..utils import generate_link
 
 @shorten_api_blueprint.route('/shorten', methods=["POST"])
 def shorten():
 
     try:
-
+        print("here1")
         user_input = request.form["userInput"]
         user_id = request.form["userID"]
 
@@ -23,14 +23,16 @@ def shorten():
         
         # generate_link() returns a dict with the keys "code" and "link".
         new_link = generate_link()
-        code = new_link["code"]
+        code = new_link["link_code"]
 
         if not new_link:
             return jsonify({"message": "Failed to generate new link"}), 400
         
-        # store newly created link in db
-        new_link = ShortURL(short_code=code, original_link=user_input, user_id=user_id).save()
+        # store newly created link code and original link in database
+        success = ShortURL(short_code=code, original_link=user_input, user_id=user_id).save()
 
+        if not success:
+            return jsonify({"message": "Error occurred while trying to insert into database."}), 500
 
         # return the whole generated link
         return jsonify({"message": "Successfully genereated link!",
