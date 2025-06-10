@@ -14,7 +14,7 @@ def create_app():
 
     db.init_app(app)
 
-    with app.app_context:
+    with app.app_context():
         from .shorten_api import shorten_api_blueprint
         app.register_blueprint(shorten_api_blueprint)
         return app
