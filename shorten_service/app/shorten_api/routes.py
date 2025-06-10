@@ -8,7 +8,6 @@ from ..utils import generate_link
 def shorten():
 
     try:
-        print("here1")
         user_input = request.form["userInput"]
         user_id = request.form["userID"]
 
