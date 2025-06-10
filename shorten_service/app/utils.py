@@ -6,7 +6,7 @@ def generate_link():
     chars = rand.sample(chars, 6)
     code = "/" + "".join(chars)
 
-    link = "http://localhost:5000" + code
+    link = "http://localhost:5002" + code
 
     # returns both the whole link and the code alone
     return {"link": link,
