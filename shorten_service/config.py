@@ -8,9 +8,19 @@ if os.path.exists(dotenv_path):
 class DevelopmentConfig():
     ENV = "development"
     DEBUG = True
-    MONGO_URI = "mongodb://shorten_service_dev:27017"
-
+    MONGODB_SETTINGS = {
+        'db': 'shorten_service_dev',
+        'host': 'host.docker.internal',
+        'port': 27017,
+        'alias': 'default',
+    }
+    
 class ProductionConfig():
     ENV = "production"
     DEBUG = False
-    MONGO_URI = "mongodb://shorten_service:27017"
+    MONGODB_SETTINGS = {
+        'db': 'shorten_service',
+        'host': 'host.docker.internal',
+        'port': 27017,
+        'alias': 'default',
+    }
