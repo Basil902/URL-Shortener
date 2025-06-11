@@ -41,6 +41,7 @@ def shorten():
         print("Exception inside shorten route: ", e)
         return jsonify({"message": f"An exception occurred: {str(e)}"}), 500
     
+# endpoint for checking if a given link exists in the DB, if so redirect user to the corresponding original link
 @shorten_api_blueprint.route('/getlink')
 def getlink():
 
