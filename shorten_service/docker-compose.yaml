@@ -1,0 +1,30 @@
+version: '3.8'
+
+networks:
+  micro_network:
+    external:
+      name: micro_network
+
+services:
+  shorten-api:
+    container_name: cshorten-service
+    build:
+      context: .
+    ports:
+      - "5001:5001"
+    depends_on:
+      - shorten-db
+    networks:
+      - micro_network
+    restart: always
+
+  shorten-db:
+    container_name: cshorten_dbase
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_URI: mongodb://host.docker.internal:27017/shorten_service_dev
+    networks:
+      - micro_network
+  
