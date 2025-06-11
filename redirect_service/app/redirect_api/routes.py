@@ -2,7 +2,8 @@ from flask import jsonify, redirect
 import requests
 from . import redirect_api_blueprint
 
-shorten_service_url = "http://shorten-service-app:5001/getlink" # Docker service name or localhost
+# when adding shorten service container to network set --name flag to shorten-service-app to avoid errors
+shorten_service_url = "http://shorten-service-app:5001/getlink"
 
 @redirect_api_blueprint.route('/<string:code>')
 def redirect_api(code):
