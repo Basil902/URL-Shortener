@@ -12,7 +12,7 @@ def shorten():
         user_id = request.form["userID"]
 
         if not user_input.startswith("https://"):
-            return jsonify({"message": "Invalid link. Please enter a valid link that starts with 'https://'"}), 400
+            return jsonify({"message": "Invalid input. Please enter a valid link that starts with 'https://'"}), 400
         
         link_exists = ShortURL.objects(original_link=user_input, user_id=user_id)
 
