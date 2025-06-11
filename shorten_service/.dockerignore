@@ -1,2 +1,4 @@
 .git
-__pycache__
+__pycache__/
+*.pyc
+shorten_service_venv/
