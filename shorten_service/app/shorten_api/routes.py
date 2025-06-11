@@ -12,7 +12,7 @@ def shorten():
         user_id = request.form["userID"]
 
         if not user_input.startswith("https://"):
-            return jsonify({"message": "Invalid link. Please enter a valid link that starts with 'https://'"}), 400
+            return jsonify({"message": "Invalid input. Please enter a valid link that starts with 'https://'"}), 400
         
         link_exists = ShortURL.objects(original_link=user_input, user_id=user_id)
 
@@ -40,3 +40,15 @@ def shorten():
     except Exception as e:
         print("Exception inside shorten route: ", e)
         return jsonify({"message": f"An exception occurred: {str(e)}"}), 500
+    
+@shorten_api_blueprint.route('/getlink')
+def getlink():
+
+    link_code = request.args.get("link_code")
+
+    link_exists = ShortURL.objects(short_code=link_code).first()
+
+    if not link_exists:
+        return jsonify({"message": "Link doesn't exist."}), 400
+    
+    return jsonify({"redirect_link": link_exists.original_link}), 200
