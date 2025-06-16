@@ -18,7 +18,7 @@ def shorten():
 
         if link_exists:
             return jsonify({"message": "The submitted link has already been shortened before.",
-                            "short_link": link_exists}), 400
+                            "short_link": link_exists}), 409
         
         # generate_link() returns a dict with the keys "code" and "link".
         new_link = generate_link()
