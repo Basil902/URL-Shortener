@@ -2,6 +2,9 @@ import config
 import os
 from flask import Flask
 from flask_mongoengine import MongoEngine
+from flask_cors import CORS
+
+# HIER CORS EINRICHTEN ! oider bei unsicherheit deepseek fragen, anfragen von laravel erluaben (port 8000)
 
 db = MongoEngine()
 
@@ -11,6 +14,8 @@ def create_app():
     environment_configuration = os.environ['CONFIGURATION_SETUP']
     # apply configuration to app
     app.config.from_object(environment_configuration)
+    # CORS einrichten, um Requests von anderen Resources zu erlauben, z.B. aus dem Frontend (port 8000)
+    CORS(app, resources={r"/shorten/*": {"origins": "http://localhost:8000"}}, supports_credentials=True)
 
     db.init_app(app)
 
