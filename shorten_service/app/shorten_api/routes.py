@@ -8,17 +8,20 @@ from ..utils import generate_link
 def shorten():
 
     try:
-        user_input = request.form["userInput"]
+        # remove white spaces from the entered link
+        user_input = request.form["userInput"].strip()
         user_id = request.form["userID"]
 
+        print("input is:", user_input)
         if not user_input.startswith("https://"):
-            return jsonify({"message": "Invalid input. Please enter a valid link that starts with 'https://'"}), 400
+            return jsonify({"message": "Invalid input. Please enter a valid link that starts with 'https://'"}), 422
         
-        link_exists = ShortURL.objects(original_link=user_input, user_id=user_id)
+        link_exists = ShortURL.objects(original_link=user_input, user_id=user_id).first()
 
+        # falls link bereits gekürutz würde, diesen dem User anzeigen
         if link_exists:
-            return jsonify({"message": "The submitted link has already been shortened before.",
-                            "short_link": link_exists}), 409
+            link = "http://localhost:5002" + link_exists.short_code
+            return jsonify({"message": f"The submitted link has already been shortened before: {link}"}), 409
         
         # generate_link() returns a dict with the keys "code" and "link".
         new_link = generate_link()
@@ -53,3 +56,26 @@ def getlink():
         return jsonify({"message": "Link doesn't exist."}), 400
     
     return jsonify({"redirect_link": link_exists.original_link}), 200
+
+# API for returning the stored links of a user
+@shorten_api_blueprint.route('/api/getlinks/<int:userID>')
+def getlinks(userID):
+
+    try:
+
+        # die Links in asbteigender Reihenfolge holen
+        links = ShortURL.objects(user_id=userID).only('short_code').order_by('-created_at')
+        # gib die gefundenen Links in einer Liste zurück
+        user_links = []
+
+        if not links:
+            return jsonify({"message": "No links found"}), 400
+        
+        for link in links:
+            user_links.append("localhost:5002" + link.short_code)
+        
+        return jsonify({"user_links": user_links}), 200
+    
+    except Exception as e:
+        print("error in get links route: ", e)
+        return jsonify({"message": "An exception occurred while trying to fetch links"}), 500
