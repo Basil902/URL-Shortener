@@ -1,4 +1,7 @@
-FROM php:8.2-cli
+FROM php:8.2-fpm 
+
+# Create working directory
+WORKDIR /var/www/html
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -17,30 +20,30 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Create working directory
-WORKDIR /var/www
-
-# Copy package.json and composer.json first to leverage Docker cache
-COPY package.json package-lock.json /var/www/
-COPY composer.json composer.lock /var/www/
+# Copy package.json and composer.json first to leverage Docker (in the current dir mentioned under WORKDIR)
+COPY package.json package-lock.json composer.json composer.lock ./
 
 # Install Node dependencies
 RUN npm install
 
 # Install PHP dependencies (no-dev for production)
 # For development, you might want to remove --no-dev
-RUN composer install --no-interaction --no-scripts
+RUN composer install --no-dev --no-interaction --no-scripts && \ 
+    mkdir -p storage bootstrap/cache && \
+    chown -R www-data:www-data storage bootstrap/cache
 
-# Copy application files
-COPY . /var/www/
+# Copy application files into /var/www
+COPY . .
 
 # Build assets (for production)
-# For development, this might not be necessary as Vite will handle it
-# RUN npm run build
+RUN npm run build
+
+# Fix permissions again (in case COPY overrides them)
+RUN chown -R www-data:www-data storage bootstrap/cache
 
 # Expose ports
-# 8000 for PHP server, 5173 for Vite
-EXPOSE 8000
-EXPOSE 5173
+# 9000 for php fpm
+EXPOSE 9000
 
-CMD ["sh", "-c", "npm run dev"]
+# CMD ["sh", "-c", "npm run dev", "php-fpm -F -R"]
+CMD ["php-fpm", "-F", "-R"]
