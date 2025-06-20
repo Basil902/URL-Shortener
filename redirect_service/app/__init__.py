@@ -4,7 +4,7 @@ from flask import Flask
 
 def create_app():
     app = Flask(__name__)
-    environment_configuration = os.environ['CONFIGURATION_SETUP']
+    environment_configuration = os.getenv('CONFIGURATION_SETUP', 'config.ProductionConfig')
     app.config.from_object(environment_configuration)
 
     with app.app_context():

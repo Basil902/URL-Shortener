@@ -11,7 +11,7 @@ db = MongoEngine()
 def create_app():
     app = Flask(__name__)
     # load configuartion dynamically (production, development etc) see .env
-    environment_configuration = os.environ['CONFIGURATION_SETUP']
+    environment_configuration = os.getenv('CONFIGURATION_SETUP', 'config.ProductionConfig')
     # apply configuration to app
     app.config.from_object(environment_configuration)
     # CORS einrichten, um Requests von anderen Resources zu erlauben, z.B. aus dem Frontend (port 8000)
