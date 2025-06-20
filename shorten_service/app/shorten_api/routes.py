@@ -8,17 +8,16 @@ from ..utils import generate_link
 def shorten():
 
     try:
-        # remove white spaces from the entered link
+        # remove white spaces from the link entered by user
         user_input = request.form["userInput"].strip()
         user_id = request.form["userID"]
 
-        print("input is:", user_input)
         if not user_input.startswith("https://"):
             return jsonify({"message": "Invalid input. Please enter a valid link that starts with 'https://'"}), 422
         
         link_exists = ShortURL.objects(original_link=user_input, user_id=user_id).first()
 
-        # falls link bereits gekürutz würde, diesen dem User anzeigen
+        # show link stored in DB if it was already shortened before
         if link_exists:
             link = "http://localhost:5002" + link_exists.short_code
             return jsonify({"message": f"The submitted link has already been shortened before: {link}"}), 409
@@ -63,9 +62,9 @@ def getlinks(userID):
 
     try:
 
-        # die Links in asbteigender Reihenfolge holen
+        # Fetch user's links and sort in descending order
         links = ShortURL.objects(user_id=userID).only('short_code').order_by('-created_at')
-        # gib die gefundenen Links in einer Liste zurück
+        # return links in a list
         user_links = []
 
         if not links:

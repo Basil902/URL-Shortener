@@ -15,7 +15,7 @@ def create_app():
     # apply configuration to app
     app.config.from_object(environment_configuration)
     # CORS einrichten, um Requests von anderen Resources zu erlauben, z.B. aus dem Frontend (port 8000)
-    CORS(app, resources={r"/shorten/*": {"origins": "http://localhost:8000"}}, supports_credentials=True)
+    CORS(app, resources={r"/shorten/*": {"origins": "http://localhost*"}}, supports_credentials=True)
 
     db.init_app(app)
 

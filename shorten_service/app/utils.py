@@ -8,6 +8,6 @@ def generate_link():
 
     link = "http://localhost:5002" + code
 
-    # returns both the whole link and the code alone
+    # returns both the whole link and the link code separately
     return {"link": link,
             "link_code": code}

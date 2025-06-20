@@ -2,8 +2,7 @@ from flask import jsonify, redirect
 import requests
 from . import redirect_api_blueprint
 
-# when adding shorten service container to network set --name flag to shorten-service-app to avoid errors
-shorten_service_url = "http://shorten-service-app:5001/getlink"
+shorten_service_url = "http://shorten-service:5001/getlink"
 
 @redirect_api_blueprint.route('/<string:code>')
 def redirect_api(code):
@@ -20,7 +19,6 @@ def redirect_api(code):
         return redirect(response["redirect_link"])
     
     except requests.exceptions.RequestException as e:
-        print("ere6 in redirect")
         return jsonify({"error": str(e)}), 500
     
     except Exception as e:
