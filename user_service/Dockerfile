@@ -28,9 +28,7 @@ RUN npm install
 
 # Install PHP dependencies (no-dev for production)
 # For development, you might want to remove --no-dev
-RUN composer install --no-dev --no-interaction --no-scripts && \ 
-    mkdir -p storage bootstrap/cache && \
-    chown -R www-data:www-data storage bootstrap/cache
+RUN composer install --no-interaction --no-scripts
 
 # Copy application files into /var/www
 COPY . .
@@ -39,11 +37,10 @@ COPY . .
 RUN npm run build
 
 # Fix permissions again (in case COPY overrides them)
-RUN chown -R www-data:www-data storage bootstrap/cache
+RUN mkdir -p storage bootstrap/cache && \
+    chown -R www-data:www-data storage bootstrap/cache
 
-# Expose ports
 # 9000 for php fpm
 EXPOSE 9000
 
-# CMD ["sh", "-c", "npm run dev", "php-fpm -F -R"]
 CMD ["php-fpm", "-F", "-R"]

@@ -44,11 +44,12 @@ services:
 
   user-service:
     build: user_service/.
+    ports:
+      - "9000:9000"
     expose:
       - 9000
     volumes:
       - ./user_service:/var/www/html
-
     container_name: cuser-service
     depends_on:
       - user-db
@@ -72,10 +73,10 @@ services:
     image: mysql:8.0.42
     container_name: user-dbase
     environment:
-      - MYSQL_ROOT_PASSWORD= basil123!
+      - MYSQL_ROOT_PASSWORD= admin123!
       - MYSQL_DATABASE= user-service
       - MYSQL_USER= root
-      - MYSQL_PASSWORD= basil123!
+      - MYSQL_PASSWORD= admin123!
     networks:
       - micro-network
     volumes:
@@ -83,4 +84,5 @@ services:
 
 networks:
   micro-network:
+    # internal: true
     driver: bridge
