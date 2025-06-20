@@ -9,15 +9,19 @@ class UserControler extends Controller
 {
     public function profile() {
         $user = Auth::user();
-        $userId = Auth::id();
+        $userId = $user->id;
 
-        $response = Http::get("http://localhost:5001/api/getlinks/{$userId}");
-
+        # api request to the shorten service to retrieve the user's links
+        $response = Http::get("http://shorten-service:5001/api/getlinks/{$userId}");
+        $links = null;
         // Get the response body
-        $data = $response->json();
-        $links = $data['user_links'];
 
-        #die links des eingeloggten Users anzeigen
+        if ($response->successful()){
+            $data = $response->json();
+            $links = $data['user_links'] ? $data['user_links'] : [];
+        }
+
+        # List the user's links
         return view('profile', ['user' => $user, 'links' => $links]);
     }
 }
