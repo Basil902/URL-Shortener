@@ -8,6 +8,7 @@ def create_app():
     app.config.from_object(environment_configuration)
 
     with app.app_context():
+        # register blueprint
         from .redirect_api import redirect_api_blueprint
         app.register_blueprint(redirect_api_blueprint)
         return app

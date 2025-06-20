@@ -1,0 +1,6 @@
+.git
+__pycache__/
+*.pyc
+shorten_service_venv/
+redirect_service_venv/
+.vscode/
