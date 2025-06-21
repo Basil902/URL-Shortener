@@ -14,8 +14,10 @@ Docker v. 28.2.2 oder höher muss bereits vorhanden sein, damit die Docker Conta
 3. Docker Container bauen & starten mit dem Befehl:
    docker compose build -d --build
 4. Warten bis die Container laufen, dies kann eine Weile dauern;
-5. Die Webseite aufrufen unter "localhost/home". Man braucht keine Portnummer anzugeben;
-6. Um die Container zu stoppen, folgendem Befehl ausführen:
+5. Wichtig: sobald die Container laufen, erstmal die Migrationen in Laravel manuell ausführen, damit die Tabellen erstellt werden:
+   docker exec -i cuser-service php artisan migrate
+6. Die Webseite aufrufen unter "localhost/home". Man braucht keine Portnummer anzugeben;
+7. Um die Container zu stoppen, folgendem Befehl ausführen:
    docker compose down    # -v verwenden, um Volumes zu löschen
 
 # Dienste
