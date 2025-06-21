@@ -72,11 +72,11 @@ services:
   user-db:
     image: mysql:8.0.42
     container_name: user-dbase
+    ports:
+      - "3307:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD= admin123!
-      - MYSQL_DATABASE= user-service
-      - MYSQL_USER= root
-      - MYSQL_PASSWORD= admin123!
+      MYSQL_ROOT_PASSWORD: "admin123!"
+      MYSQL_DATABASE: "user-service"
     networks:
       - micro-network
     volumes:
@@ -84,5 +84,4 @@ services:
 
 networks:
   micro-network:
-    # internal: true
     driver: bridge
