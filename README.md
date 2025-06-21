@@ -8,7 +8,7 @@ Docker v. 28.2.2 oder höher muss bereits vorhanden sein, damit die Docker Conta
 # Installation und Ausführung
 
 1. Den Github Repository lokal klonen:
-   git clone https://github.com/link/zum/repository
+   git clone https://github.com/Basil902/URL-Shortener.git
    
 2. Wechsle zu dem Projekt Root-Verzeichnis, bevor du irgendwelche Dockerbefehle ausführst;
 3. Docker Container bauen & starten mit dem Befehl:
