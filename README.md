@@ -8,18 +8,33 @@ Docker v. 28.2.2 oder höher muss bereits vorhanden sein, damit die Docker Conta
 # Installation und Ausführung
 
 1. Den Github Repository lokal klonen:
+   ````
+   ```
    git clone https://github.com/Basil902/URL-Shortener.git
+   ```
+   ````
    
-2. Wechsle zu dem Projekt Root-Verzeichnis, bevor du irgendwelche Dockerbefehle ausführst;
-3. Docker Container bauen & starten mit dem Befehl:
+3. Wechsle zu dem Projekt Root-Verzeichnis, bevor du Dockerbefehle ausführst;
+4. Docker Container bauen & starten mit dem Befehl:
+   ````
+   ```
    docker compose build -d --build
-4. Warten bis die Container laufen, dies kann eine Weile dauern;
-5. Wichtig: sobald die Container laufen, erstmal die Migrationen in Laravel manuell ausführen, damit die Tabellen erstellt werden:
+   ```
+   ````
+6. Warten bis die Container laufen, dies kann eine Weile dauern;
+7. Wichtig: sobald die Container laufen, erstmal die Migrationen in Laravel manuell ausführen, damit die Tabellen erstellt werden:
+   ````
+   ```
    docker exec -i cuser-service php artisan migrate
-6. Die Webseite aufrufen unter "localhost/home". Man braucht keine Portnummer anzugeben;
-7. Um die Container zu stoppen, folgendem Befehl ausführen:
-   docker compose down    # -v verwenden, um Volumes zu löschen
-
+   ```
+   ````
+9. Die Webseite aufrufen unter "localhost/home". Man braucht keine Portnummer anzugeben;
+10. Um die Container zu stoppen, folgendem Befehl ausführen:
+    ````
+    ```
+    docker compose down    # -v verwenden, um Volumes zu löschen
+    ```
+    ````
 # Dienste
 NGINX (Reverse Proxy / Gateway), läuft auf Port 80: http://localhost:80
 Backend / API Endpunkte:
