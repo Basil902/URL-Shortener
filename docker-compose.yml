@@ -3,6 +3,7 @@ version: '3.8'
 volumes:
   mongodb_data:
   mysql_data:
+  laravel-public:
 
 services:
   nginx:
@@ -11,7 +12,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./user_service:/var/www/html
+      - laravel-public:/var/www/html/public:ro
     depends_on:
       - shorten-service
       - redirect-service
@@ -49,7 +50,7 @@ services:
     expose:
       - 9000
     volumes:
-      - ./user_service:/var/www/html
+      - laravel-public:/var/www/html/public
     container_name: cuser-service
     depends_on:
       - user-db

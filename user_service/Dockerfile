@@ -3,20 +3,16 @@ FROM php:8.2-fpm
 # Create working directory
 WORKDIR /var/www/html
 
-RUN apt-get update && apt-get install -y \
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get update && apt-get install -y \
+    nodejs \
     git \
     curl \
     libzip-dev \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip \
-    npm \
-    nodejs \
-    && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    unzip
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -26,19 +22,18 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy package.json and composer.json first to leverage Docker (in the current dir mentioned under WORKDIR)
-COPY package.json package-lock.json composer.json composer.lock ./
+COPY package*.json composer.json composer.lock ./
 
 # Install Node dependencies
+ENV NODE_ENV=development
 RUN npm install
 
-# Install PHP dependencies (no-dev for production)
+# Install PHP dependencies
 # For development, you might want to remove --no-dev
 RUN composer install --no-interaction --no-scripts
 
 # Copy application files into /var/www
 COPY . .
-
-RUN NODE_ENV=development npm i
 
 # Build assets (for production)
 RUN npm run build
