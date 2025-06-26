@@ -11,7 +11,12 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    npm
+    npm \
+    nodejs \
+    && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -32,6 +37,8 @@ RUN composer install --no-interaction --no-scripts
 
 # Copy application files into /var/www
 COPY . .
+
+RUN NODE_ENV=development npm i
 
 # Build assets (for production)
 RUN npm run build
