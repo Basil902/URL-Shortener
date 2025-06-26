@@ -3,7 +3,7 @@
 URL-Shortener ist eine Web-App, mit der man URLs kürzen kann. Der User kann einfach einen beliebigen langen Link eingeben, und dieser wird blitzschnell gekürzt. Um die App nutzen zu können, müssen sich die Nutzer erstmal registrieren (kostenlos).
 
 # Voraussetzungen
-Docker v. 28.2.2 oder höher muss bereits vorhanden sein, damit die Docker Container gebaut und gestartet werden können. 
+Docker v. 28.2.2 oder höher muss bereits vorhanden sein, damit die Docker Container erstellt und gestartet werden können. 
 
 # Installation und Ausführung
 
