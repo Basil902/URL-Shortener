@@ -17,7 +17,7 @@ Docker v. 28.2.2 oder höher muss bereits vorhanden sein, damit die Docker Conta
 5. Docker Container bauen & starten mit dem Befehl:
    
    ```
-   docker compose build -d --build
+   docker compose up -d --build
    ```
 7. Warten bis die Container laufen, dies kann eine Weile dauern;
    
