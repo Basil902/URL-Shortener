@@ -7,15 +7,7 @@ use App\Http\Controllers\UserControler;
 use App\Http\Controllers\UserController;
 use Illuminate\Container\Attributes\Auth;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/test', function() {
-    return view("testview");
-});
-
-Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register.show');
 
